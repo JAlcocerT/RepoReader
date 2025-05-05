@@ -20,13 +20,12 @@ def ask_question(question, context: QuestionContext):
     numbered_documents = format_documents(relevant_docs)
     question_context = f"This question is about the GitHub repository '{context.repo_name}' available at {context.github_url}. The most relevant documents are:\n\n{numbered_documents}"
 
+    # Run the chain with the prompt variables; model name was set on LLM instantiation
     answer_with_sources = context.llm_chain.run(
-        model=context.model_name,
-        question=question,
-        context=question_context,
         repo_name=context.repo_name,
         github_url=context.github_url,
         conversation_history=context.conversation_history,
+        question=question,
         numbered_documents=numbered_documents,
         file_type_counts=context.file_type_counts,
         filenames=context.filenames
